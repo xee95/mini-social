@@ -4,6 +4,6 @@ interface PageProps {
 }
 // Server component that passes the ID to the client component
 export default async function EditPostPage({ params }: PageProps) {
-  const { id } = await params;
+  const { id } = params;
   return <EditPostClient postId={id} />;
 }
