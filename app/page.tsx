@@ -1,6 +1,14 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { Feed } from "@/components/feed";
+import { MainLayout } from "@/components/layout/main-layout";
 
 export default function Home() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+  return (
+    <MainLayout>
+      <main className=" bg-background">
+        <div className="mx-auto max-w-3xl">
+          <Feed />
+        </div>
+      </main>
+    </MainLayout>
+  );
 }
