@@ -33,8 +33,6 @@ export default function EditPostClient({ postId }: EditPostClientProps) {
 
   const [post, setPost] = useState<Post | null>(null);
   const [content, setContent] = useState("");
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -51,9 +49,6 @@ export default function EditPostClient({ postId }: EditPostClientProps) {
 
         setPost(fetchedPost);
         setContent(fetchedPost.content);
-        if (fetchedPost.imageUrl) {
-          setImagePreview(fetchedPost.imageUrl);
-        }
       } catch (error) {
         toast.error("Failed to load post");
         router.push("/");
@@ -89,18 +84,6 @@ export default function EditPostClient({ postId }: EditPostClientProps) {
     return null;
   }
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!content.trim()) {
@@ -112,22 +95,8 @@ export default function EditPostClient({ postId }: EditPostClientProps) {
     setIsSubmitting(true);
 
     try {
-      let imageUrl = post.imageUrl;
-
-      if (!imagePreview && post.imageUrl) {
-        imageUrl = null;
-      }
-
-      if (imageFile) {
-        imageUrl = await uploadImage(
-          imageFile,
-          `posts/${user!.uid}/${Date.now()}`
-        );
-      }
-
       await updatePost(postId, {
         content,
-        imageUrl,
         updatedAt: new Date().toISOString(),
       });
       toast.success("Post updated successfully");
@@ -160,54 +129,6 @@ export default function EditPostClient({ postId }: EditPostClientProps) {
                     rows={5}
                     className="resize-none"
                   />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="image">Add an image (optional)</Label>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => fileInputRef.current?.click()}
-                      className="flex items-center gap-2"
-                    >
-                      <ImageIcon size={16} />
-                      {imagePreview ? "Change Image" : "Upload Image"}
-                    </Button>
-                    {imagePreview && (
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        onClick={() => {
-                          setImageFile(null);
-                          setImagePreview(null);
-                          if (fileInputRef.current) {
-                            fileInputRef.current.value = "";
-                          }
-                        }}
-                        className="text-red-500 hover:text-red-700"
-                      >
-                        Remove
-                      </Button>
-                    )}
-                  </div>
-                  <Input
-                    ref={fileInputRef}
-                    id="image"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="hidden"
-                  />
-                  {imagePreview && (
-                    <div className="mt-2 overflow-hidden rounded-md border">
-                      <img
-                        src={imagePreview || "/placeholder.svg"}
-                        alt="Preview"
-                        className="max-h-64 w-full object-cover"
-                      />
-                    </div>
-                  )}
                 </div>
               </CardContent>
               <CardFooter>

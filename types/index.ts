@@ -1,7 +1,6 @@
 export interface Post {
   id: string
   content: string
-  imageUrl: string | null
   authorId: string
   authorName: string
   createdAt: string
@@ -11,7 +10,6 @@ export interface Post {
 
 export interface NewPost {
   content: string
-  imageUrl?: string | null
   authorId: string
   authorName: string
   createdAt: string
@@ -20,7 +18,6 @@ export interface NewPost {
 
 export interface PostUpdate {
   content?: string
-  imageUrl?: string | null
   updatedAt?: string
 }
 

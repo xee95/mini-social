@@ -126,7 +126,7 @@ export function PostCard({ post, isOwner, onPostUpdated }: PostCardProps) {
         </CardHeader>
         <CardContent>
           <p className="whitespace-pre-line">{post.content}</p>
-          {post.imageUrl && (
+          {/* {post.imageUrl && (
             <div className="mt-4 overflow-hidden rounded-md">
               <img
                 src={post.imageUrl || "/placeholder.svg"}
@@ -134,7 +134,7 @@ export function PostCard({ post, isOwner, onPostUpdated }: PostCardProps) {
                 className="w-full object-cover"
               />
             </div>
-          )}
+          )} */}
         </CardContent>
         <CardFooter className="border-t pt-4"></CardFooter>
       </Card>

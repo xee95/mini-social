@@ -40,7 +40,6 @@ export async function getAllPosts(): Promise<Post[]> {
       return {
         id: doc.id,
         content: data.content,
-        imageUrl: data.imageUrl || null,
         authorId: data.authorId,
         authorName: data.authorName,
         createdAt: data.createdAt instanceof Timestamp ? data.createdAt.toDate().toISOString() : data.createdAt,
@@ -64,7 +63,6 @@ export async function getUserPosts(userId: string): Promise<Post[]> {
       return {
         id: doc.id,
         content: data.content,
-        imageUrl: data.imageUrl || null,
         authorId: data.authorId,
         authorName: data.authorName,
         createdAt: data.createdAt instanceof Timestamp ? data.createdAt.toDate().toISOString() : data.createdAt,
@@ -91,7 +89,6 @@ export async function getPostById(postId: string): Promise<Post | null> {
     return {
       id: docSnap.id,
       content: data.content,
-      imageUrl: data.imageUrl || null,
       authorId: data.authorId,
       authorName: data.authorName,
       createdAt: data.createdAt instanceof Timestamp ? data.createdAt.toDate().toISOString() : data.createdAt,
